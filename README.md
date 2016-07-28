@@ -1,20 +1,21 @@
 # Transmission on Alpine Linux
-[![](https://badge.imagelayers.io/rlesouef/alpine-transmission:latest.svg)](https://imagelayers.io/?images=rlesouef/alpine-transmission:latest 'Get your own badge on imagelayers.io')
+[![](https://badge.imagelayers.io/ccorsano/alpine-transmission:latest.svg)](https://imagelayers.io/?images=ccorsano/alpine-transmission:latest 'Get your own badge on imagelayers.io')
 
 ## docker-transmission
 
 Transmission Daemon Docker Container
+Very basic fork of rlesouef/alpine-transmission to allow persistence of the config files using a shared volume.
 
 Try it out
 ----------
 
 Change transmission-daemon config:
 
-    docker run -ti rlesouef/alpine-transmission vi /etc/transmission-daemon/settings.json
+    docker run -ti ccorsano/alpine-transmission vi /etc/transmission-daemon/settings.json
 
 Create:
 
-    mkdir -p /data/rlesouef/transmission/{downloads,incomplete}
+    mkdir -p /var/transmission/{downloads,incomplete}
 
 Run the container:
 
@@ -24,9 +25,9 @@ Run the container:
     -p 51413:51413/udp \
     -e "USERNAME=admin" \
     -e "PASSWORD=password" \
-    -v /data/rlesouef/transmission/downloads:/transmission/downloads \
-    -v /data/rlesouef/transmission/incomplete:/transmission/incomplete \
-    rlesouef/alpine-transmission
+    -v /var/transmission/downloads:/transmission/downloads \
+    -v /var/transmission/incomplete:/transmission/incomplete \
+    ccorsano/alpine-transmission
 
 Connect to running container::
 
@@ -35,9 +36,9 @@ Connect to running container::
 Build it yourself
 -----------------
 
-    git clone https://github.com/rlesouef/alpine-transmission.git
+    git clone https://github.com/ccorsano/alpine-transmission.git
     cd alpine-transmission
-    docker build -t rlesouef/alpine-transmission .
+    docker build -t ccorsano/alpine-transmission .
 
 
 ```
@@ -52,6 +53,6 @@ docker run -d  --name transmission \
 -v /data/username/transmission/downloads:/torrents/downloads \
 -v /data/username/transmission/incomplete:/torrents/incomplete \
 -v /data/username/transmission/config:/etc/transmission-daemon \
-rlesouef/alpine-transmission
+ccorsano/alpine-transmission
 
 ```

@@ -1,9 +1,12 @@
 #!/bin/sh
 
 set -e
-SETTINGS=/etc/transmission-daemon/settings.json
+SETTINGS_BASE=/transmission/settings.json
+SETTINGS_LIVE=/etc/transmission-daemon/settings.json
 
 if [[ ! -f ${SETTINGS}.bak ]]; then
+	cp $SETTINGS_BASE $SETTINGS_LIVE
+
 	# Checks for USERNAME variable
 	if [ -z "$USERNAME" ]; then
 	  echo >&2 'Please set an USERNAME variable (ie.: -e USERNAME=john).'
@@ -15,8 +18,8 @@ if [[ ! -f ${SETTINGS}.bak ]]; then
 	  exit 1
 	fi
 	# Modify settings.json
-	sed -i.bak -e "s/#rpc-password#/$PASSWORD/" $SETTINGS
-	sed -i.bak -e "s/#rpc-username#/$USERNAME/" $SETTINGS
+	sed -i.bak -e "s/#rpc-password#/$PASSWORD/" $SETTINGS_LIVE
+	sed -i.bak -e "s/#rpc-username#/$USERNAME/" $SETTINGS_LIVE
 fi
 
 unset PASSWORD USERNAME
